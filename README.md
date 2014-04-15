@@ -54,45 +54,45 @@ jQA.addQA({
 ```
 The message can also be a function:
 
-```
-	jQA.addQA({
-		"deprecated elements":{
-			"selector":"center,font,applet,strike,s,u,menu,dir,isindex,basefont",
-			"message": function(obj){
-				var elements =[];
-				if($(obj).is('center')){
-					elements.push('center');
-				}
-				if($(obj).is('font')){
-					elements.push('font');
-				}
-				if($(obj).is('applet')){
-					elements.push('applet');
-				}
-				if($(obj).is('strike')){
-					elements.push('strike');
-				}
-				if($(obj).is('s')){
-					elements.push('s');
-				}
-				if($(obj).is('u')){
-					elements.push('u');
-				}
-				if($(obj).is('menu')){
-					elements.push('menu');
-				}
-				if($(obj).is('dir')){
-					elements.push('dir');
-				}
-				if($(obj).is('isindex')){
-					elements.push('isindex');
-				}
-				if($(obj).is('basefont')){
-					elements.push('basefont');
-				}
-				return "content contains <a href=\"http://www.w3.org/TR/html4/index/attributes.html\">deprecated elements</a>: "+ elements.join(', ');
+```javascript
+jQA.addQA({
+	"deprecated elements":{
+		"selector":"center,font,applet,strike,s,u,menu,dir,isindex,basefont",
+		"message": function(obj){
+			var elements =[];
+			if($(obj).is('center')){
+				elements.push('center');
 			}
-		});	
+			if($(obj).is('font')){
+				elements.push('font');
+			}
+			if($(obj).is('applet')){
+				elements.push('applet');
+			}
+			if($(obj).is('strike')){
+				elements.push('strike');
+			}
+			if($(obj).is('s')){
+				elements.push('s');
+			}
+			if($(obj).is('u')){
+				elements.push('u');
+			}
+			if($(obj).is('menu')){
+				elements.push('menu');
+			}
+			if($(obj).is('dir')){
+				elements.push('dir');
+			}
+			if($(obj).is('isindex')){
+				elements.push('isindex');
+			}
+			if($(obj).is('basefont')){
+				elements.push('basefont');
+			}
+			return "content contains <a href=\"http://www.w3.org/TR/html4/index/attributes.html\">deprecated elements</a>: "+ elements.join(', ');
+		}
+	});	
 ```
 
 Options
