@@ -20,7 +20,7 @@ You can add one or more rules at a time. Remember to give the rule a unique name
 
 Simple rule:
 
-```
+```javascript
 	jQA.addQA({
 		"deprecated elements":{
 			"selector":"center,font,applet,strike,s,u,menu,dir,isindex,basefont",
