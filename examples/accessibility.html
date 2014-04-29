@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>jQA tests</title>
+    <style>
+      body{
+      margin: 0 2em;
+      }
+      pre{
+		  border: solid 1px #CCC;
+		  padding: .2em 1em;
+		  width: 100%;
+		  box-sizing: border-box;
+		  overflow: auto;
+      }
+      section{
+		  border-bottom: solid 1px #CCC;
+		  padding-bottom: 2em;
+		  margin-bottom: 2em;
+      }
+    </style>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="../jqa.js"></script>
+    <script>
+    function borderRed(obj){
+      $(obj).css("border","dashed 1px red");
+      if($(obj).is('table')){
+      $(obj).css("border-collapse","separate");
+      }
+    }
+    $(document).ready(function(){
+      jQA.doQA();
+    });
+    </script>
+    <script type="text/javascript" src="./rules/accessibility-rules.js"></script>
+    </head>
+    <body>
+    <h1>jQA accessibility examples</h1>
+    <p>This page demonstrates some accessibility and mark-up validation checks that can be done with jQA.</p>
+    
+    <section>
+    <h2>1. Missing alt text</h2>
+      <p>Images must have alt text.</p>
+      <h3>Rule:</h3>
+<pre>jQA.addQA({
+  "missing alt":{
+    "selector":"body img:not([alt])",
+    "each": function (obj){
+      $(obj).css("border","dashed 1px red");
+    },
+    "message": "Images must have alt text",
+    "severity": 2
+  }
+});</pre>
+        <h3>Example:</h3>
+        <img src="http://lorempixel.com/g/400/200/"/>
+    </section>
+  
+    <section>
+    <h2>2. Deprecated elements</h2>
+      <p>Pages should not contain deprecated elements.</p>
+      <h3>Rule:</h3>
+<pre>jQA.addQA({
+  "deprecated elements":{
+    "selector":"center,acronym,font,applet,strike,s,menu,dir,isindex,basefont,xmp,plaintext,bgsound,frame,frameset,noframes,layer,listing,nextid,rb,big,blink,marquee,multicol,nobr,spacer,tt",
+    "each": function(obj){
+    $(obj).css("border","dashed 1px red");
+  },
+    "message": function(obj){
+      var elements =[];
+      $.each(obj,function(i, obj){
+        var tagName = $(obj).prop("tagName");
+        if($.inArray(tagName, elements) == -1){
+          elements.push(tagName);
+        }
+      });
+      return "content contains deprecated elements: "+ elements.join(', ');
+    },
+    "severity": 1
+  }
+});</pre>
+        <h3>Examples:</h3>
+    <p><em>Because these examples use deprecated some elements may not render correctly</em>.</p>
+    <center>center</center>
+    <acronym>acronym</acronym>
+    <font>font</font>
+    <applet>applet</applet>
+    <strike>strike</strike>
+    <s>s</s>
+    <menu>menu</menu>
+    <dir>dir</dir>
+    <isindex>isindex</isindex>
+    <basefont>basefont</basefont>
+    <xmp>xmp</xmp>
+    <bgsound>bgsound</bgsound>
+    <frame>frame</frame>
+    <frameset>frameset</frameset>
+    <noframes>noframes</noframes>
+    <layer>layer</layer>
+    <listing>listing</listing>
+    <nextid>nextid</nextid>
+    <rb>rb</rb>
+    <big>big</big>
+    <blink>blink</blink>
+    <marquee>marquee</marquee>
+    <multicol>multicol</multicol>
+    <nobr>nobr</nobr>
+    <spacer>spacer</spacer>
+    <tt>tt</tt>
+    </section>
+  
+    <section>
+    <h2>3. Deprecated attributes</h2>
+    <p>Pages should not contain deprecated elements.</p>
+    <h3>Rule:</h3>
+<pre>
+var deprecated_attributes = ["[align]", "[alink]", "[axis]", "[background]", "[bgcolor]", "[border]", "[cellpadding]", "[cellspacing]", "[charset]", "[clear]", "[color]", "[compact]", "[coords]", "[face]", "[frame]", "[height]", "[hspace]", "[language]", "[link]", "[noshade]", "[nowrap]", "[rev]", "[rules]", "[scrolling]", "[shape]", "[size]", "[start]", "[text]", "[version]", "[vlink]", "[vspace]", "[width]", "link[rev]", "link[charset]", "link [target]", "a[rev]", "a[charset]", "a[shape]", "a[coords]", "a[name]", "a[target='blank']", "a[target='_blank']", "img[longdesc]", "iframe[longdesc]", "area[nohref]", "head[profile]", "html[version]", "img[name]", "meta[scheme]", "object[archive]", "object[classid]", "object[codebase]", "object[codetype]", "object[declare]", "object[standby]", "param[type]", "param[valuetype]", "table[summary]", "th[axis]", "td[axis]", "th[abbr]", "td[scope]"];
+
+jQA.addQA({
+  "deprecated attribute":{
+    "selector": deprecated_attributes.join(','),
+    "each": function(obj){
+        $(obj).css("border","dashed 1px red");
+        if($(obj).is('table')){
+          $(obj).css("border-collapse","separate");
+        }
+    },
+    "message": function(obj){
+      var attributes =[];
+      $.each(deprecated_attributes, function(i, selector){
+        if($(obj).is(selector)){
+          if($.inArray(selector, attributes) == -1){
+            attributes.push(selector);
+          }
+        }
+      });
+      return "Content contains deprecated attributes: "+ attributes.join(', ');
+    },
+    "severity": 1
+  }
+});</pre>
+        <h3>Examples:</h3>
+    <p align alink axis background bgcolor border cellpadding cellspacing charset clear color compact coords face frame height hspace language link noshade nowrap rev rules scrolling shape size start text version vlink vspace width>Attribute abuse</p>
+    <link rev charset target />
+    <a rev charset shape coords name  target='blank'>Everything a link should not be</a>
+    <img name src="http://lorempixel.com/g/400/200/" longdesc="" />
+    <iframe longdesc="" >iframe</iframe>
+    <area nohref>
+     
+    <object archive classid codebase codetype declare standby>object</object>
+    <param type valuetype/>
+    <table summary>
+    <th axis abbr scope>table th</th>
+    <td axis>table td</td>
+    </table>
+
+    </section>
+  
+    <section>
+    <h2>4. Bad anchor links</h2>
+    <p>Anchor links require an element with a matching id attribute.</p>
+    <h3>Rule:</h3>
+<pre>
+jQA.addQA({
+  "bad anchor":{
+    "selector": "a[href^='#']",
+    "filter": function(i,obj){
+      if($($(obj).attr('href')).length == 0){
+        return true;
+      }
+      return false;
+    },
+    "each": borderRed,
+    "message": "Anchor link is misssing a matching ID",
+    "severity": 2
+  }
+});</pre>
+        <h3>Examples:</h3>
+		<a href="#nowhere">Link target does not exist</a>
+    </section>
+  
+    <section>
+		<h2>5. Bold links</h2>
+		<p>Links do not need additional emphisis. Use css for consistent link styles.</p>
+		<h3>Rule:</h3>
+<pre>
+jQA.addQA({
+  "bold links":{
+    "selector":"body a>b, body a>strong,body b>a, body strong>a",
+    "each": borderRed,
+    "message":"Link text should not be bold",
+    "severity": 3
+  }
+});</pre>
+        <h3>Examples:</h3>
+		<p><a href=""><strong>This link does not need to be bold</strong></a> it is already different from surrounding text</p>
+    </section>
+  
+    <section>
+		<h2>6. Bold headings</h2>
+		<p>Links do not need additional emphisis. Use css for consistent link styles.</p>
+		<h3>Rule:</h3>
+<pre>
+jQA.addQA({
+  "bold links":{
+	"selector":"body a>b, body a>strong,body b>a, body strong>a",
+	"each": borderRed,
+	"message":"Link text should not be bold",
+	"severity": 3
+  }
+});</pre>
+			<h3>Examples:</h3>
+			<h3><strong>Generally heading text is already </strong></h3>
+		<p>Use css for consistent heading styles.</p>
+    
+    </section>
+ 
+    </body>
+</html>

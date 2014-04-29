@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>jQA tests</title>
+		<style>
+		  body{
+        margin: 0 2em;
+		  }
+		  pre{
+        border: solid 1px #CCC;
+        padding: .2em 1em;
+		  }
+		  section{
+        border-bottom: solid 1px #CCC;
+        padding-bottom: 2em;
+        margin-bottom: 2em;
+		  }
+		</style>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script src="../jqa.js"></script>
+		<script>
+		function borderRed(obj){
+		  $(obj).css("border","dashed 1px red");
+		  if($(obj).is('table')){
+			$(obj).css("border-collapse","separate");
+		  }
+		}
+		$(document).ready(function(){
+		  jQA.doQA();
+		});
+		</script>
+		<script src="./rules/language-rules.js"></script>
+    </head>
+    <body>
+    <h1>jQA language examples</h1>
+    <p>This page demonstrates some simple language checks that can be done with jQA.</p>
+    
+    <section>
+    <h2>1. Empty paragraphs</h2>
+      <p>Empty paragraphs should not be used. This rule will detect empty p tags as well as p tags containing whitespace only.</p>
+      <h3>Rule:</h3>
+<pre>jQA.addQA({
+  "empty paragraphs":{
+  "selector":"body p",
+  "filter": function(index,obj){
+    if($(obj).is(':empty') ||  ($(obj).children().length == 0 && $(obj).text().match(/^[\s]*$/) ) ){
+    return true;
+    }
+    return false;
+  },
+  "each":function(obj){
+    $(obj).css("color","red");
+    $(obj).html(" (empty paragraph) ");
+  },
+  "severity": 2,
+  "message": "Language: Page contains empty paragraphs"
+  }
+});</pre>
+        <h3>Examples:</h3>
+        <p></p>
+        <p> </p>
+        <p>&nbsp; </p>
+        <p>not empty</p>
+    </section>
+    
+    <section>
+        <h2 class="no-qa">2. Use of and\or</h2>
+        <p class="no-qa">Using and\or together is more ambiguous than without it. Remember that or is not exclusive.</p>
+        <h3>Rule:</h3>
+<pre>
+jQA.addQA({
+  "and or":{
+    "selector":"body *",
+    "filter": function(index,obj){
+      patt = /\b(and|or)(\\|\/)(and|or)\b/;
+      if(patt.test($(obj).clone().children().remove().end().text())){
+        return true;
+      }
+      return false;
+    },
+    "each": function (obj){
+      $(obj).css("border","dashed 1px red");
+      if($(obj).is('table')){
+        $(obj).css("border-collapse","separate");
+      }
+    },
+    "severity": 2,
+    "message": "Language: Avoid the use of \"and\\or\". Or is not exclusive."
+  }
+});</pre>
+        <h3>Examples:</h3>
+    <p><span>and/or</span> <span>or/and</span> <span>and\or</span> <span>or\and</span></p>
+    </section>
+    
+    <section>
+        <h2 class="no-qa">3. Words ending with \s</h2>
+        <p class="no-qa">Words should not end with \s or (s). If in doubt use the plural.</p>
+        <h3>Rule:</h3>
+<pre>
+jQA.addQA({
+  "end in s":{
+    "selector":"body *",
+    "filter": function(index,obj){
+      patt=/[a-zA-Z]\/s\b|[a-zA-Z]\\s\b|[a-zA-Z]\(s\)/;
+      if(patt.test($(obj).clone().children().remove().end().text())){
+        return true;
+      }
+      return false;
+    },
+    "each": function (obj){
+      $(obj).css("border","dashed 1px red");
+      if($(obj).is('table')){
+        $(obj).css("border-collapse","separate");
+      }
+    },
+    "severity": 1,
+    "message":"Language: Avoid words ending with \"\\s\" or \"(s)\". If in doubt use the plural."
+  }
+});</pre>
+    <h3>Example:</h3>
+    <p>Writing <span>Parent(s)</span> or <span>Parent\s</span> is not 'politically corret' it's bad english. In this example parents is correct whether it is refering to a group of single individuals or couples.</p>
+    </section>
+    
+    <section>
+        <h2 class="no-qa">4. Under construction messages</h2>
+        <p class="no-qa">If a page isn't ready, don't put it up. With the possible exception of carefully plan teaser pages, coming soon and under construction messages are an overall negative experience.</p>
+        <h3>Rule:</h3>
+<pre class="no-qa">
+jQA.addQA({
+  "under construction or coming soon":{
+    "selector":"body *",
+    "filter": function(index,obj){
+      patt=/under construction|coming soon/;
+      if(patt.test($(obj).clone().children().remove().end().text())){
+        return true;
+      }
+      return false;
+    },
+    "each": function (obj){
+      $(obj).css("border","dashed 1px red");
+      if($(obj).is('table')){
+        $(obj).css("border-collapse","separate");
+      }
+    },
+    "severity": 2,
+    "message":"Language: Avoid placeholder and teaser content \"under construction\" and \"coming soon\" messages are not helpful."
+  }
+});</pre>
+    <h3>Example:</h3>
+    <p>Sorry to waste your time, but this page is <span>under construction</span>. More content will be <span>coming soon</span>, by which time you will have found what you want somewhere else.</p>
+    </section>
+      
+    </body>
+</html>

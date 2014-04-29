@@ -2,7 +2,7 @@
 	var jQA = function(){
 		var options = {
 			"headerMessage":"jQA has detected the following",
-			"defaultSeverity":5
+			"defaultSeverity":1
 		}
 		var rules = {};
 		/*Public Methods*/
@@ -12,44 +12,48 @@
 		this.addQA = function(rule){
 			$.extend(rules, rule);
 		}
-		this.doQA = function(silent){
+		this.doQA = function(silent, severity){
 			if (silent === undefined) {
 				silent = false;
+			}
+			if (severity === undefined) {
+				severity = 999;
 			}
 			var messages = [];
 			$.each(rules, function(index,rule){
 				if (rule.severity === undefined) {
 					rule.severity = options.defaultSeverity;
 				}
-				var objects = $(rule.selector).filter(function(i,obj){
-					return ($(obj).closest('.no-qa').length === 0);
-				});
-				if (typeof rule.filter === 'function') {
-					objects = $(objects).filter(rule.filter);
-				}
+				if (rule.severity <= severity) {
+					var objects = $(rule.selector).filter(function(i,obj){
+						return ($(obj).closest('.no-qa').length === 0);
+					});
+					if (typeof rule.filter === 'function') {
+						objects = $(objects).filter(rule.filter);
+					}
 
-				if (typeof rule.each === 'function') {
-					$(objects).each(function(i,obj){
-						rule.each($(obj));
+					if (typeof rule.each === 'function') {
+						$(objects).each(function(i,obj){
+							rule.each($(obj));
+						});
+					}
+					if(objects.length){
+						if (typeof rule.message === 'function') {
+							messages.push({"message":rule.message(objects),"severity":rule.severity});
+						} else {
+							messages.push({"message":rule.message,"severity":rule.severity});
+						}
+					}
+					$(objects).each(function(i, object){
+						$(object).addClass("jQA-fail");
+						$(object).addClass("jQA-severity-"+rule.severity);
+						if($(object).data("jQAMsg")){
+							$(object).data("jQAMsg", $(object).data("jQAmsg")+', '+messages[messages.length-1]['message']);
+						}else{
+							$(object).data("jQAMsg", messages[messages.length-1]['message']);
+						}
 					});
 				}
-				if(objects.length){
-					if (typeof rule.message === 'function') {
-						messages.push({"message":rule.message(objects),"severity":rule.severity});
-					} else {
-						messages.push({"message":rule.message,"severity":rule.severity});
-					}
-				}
-				$(objects).each(function(i, object){
-					$(object).addClass("jQA-fail");
-					$(object).addClass("jQA-severity-"+rule.severity);
-					if($(object).data("jQAMsg")){
-						$(object).data("jQAMsg", $(object).data("jQAmsg")+', '+messages[messages.length-1]['message']);
-					}else{
-						$(object).data("jQAMsg", messages[messages.length-1]['message']);
-					}
-				});
-				
 			});
 			if (silent){
 				$.each(messages, function(i, message){
@@ -69,6 +73,9 @@
 					$('#jqa-close-modal').focus();
 				}
 			}
+			if (typeof options.afterQA === 'function') {
+				options.afterQA(messages);
+			} 
 		}
 	}
 	//Fin
