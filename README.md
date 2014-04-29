@@ -17,7 +17,7 @@ Usage
     jQA.doQA();
   });
 </sctipt>
-```
+```javascript
 
 Writing tests cases
 -------------------
@@ -37,40 +37,40 @@ You can add one or more rules at a time. Each rule must requires a unique name a
 Simple rule:
 
 ```javascript
-	jQA.addQA({
-		"Inline styles":{
-			"selector":"body *[style]",
-			"message": "Do not use in-line styles."
-		});	
+jQA.addQA({
+  "Inline styles":{
+    "selector":"body *[style]",
+    "message": "Do not use in-line styles."
+  }
+});	
 ```
 
 A more complicated rule:
 
 ```javascript
 jQA.addQA({
-		"invalid emails":{
-			"selector":"[href^='mailto:']",
-			"filter":function(index,obj){
-				//Crude email verification
-				if( /(.+)@(.+){2,}\.(.+){2,}/.test($(obj).attr("href")){
-					return true;
-				}
-				return false;
-			},
-			"each":function(obj){
-				//Highlight error on page
-				$(obj).css("border-bottom","dashed 1px red");
-			},
-			"message": "incorrect email format",
-			"severity": 5 //Any number you like will be added to the class on the 
-		}
-		}
-	});
+  "invalid emails":{
+    "selector":"[href^='mailto:']",
+    "filter":function(index,obj){
+      //Crude email verification
+      if( /(.+)@(.+){2,}\.(.+){2,}/.test($(obj).attr("href")){
+        return true;
+      }
+      return false;
+    },
+    "each":function(obj){
+      //Highlight error on page
+      $(obj).css("border-bottom","dashed 1px red");
+    },
+    "message": "incorrect email format",
+    "severity": 5 //Any number you like will be added to the class on the 
+  }
+});
 ```
 Options
 -------
 
-Not many settings at the moment. Set a message for the jQA modal and a default severity if you like.
+Not many settings at the moment. Set a message for the jQA modal header and the default severity if you like.
 
 ```javascript
 jQA.settings({
