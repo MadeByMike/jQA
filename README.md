@@ -17,13 +17,13 @@ Usage
     jQA.doQA();
   });
 </sctipt>
-```javascript
+```
 
 Writing tests cases
 -------------------
 
 You can add one or more rules at a time. Each rule must requires a unique name and a selector. This is all that is required although without a message this is fairly useless. 
-```
+```javascript
 {
   "name or rule":{
 		"selector":"body img", // string: jQuery selector
