@@ -5,6 +5,8 @@ JQA is very tiny jQuery plugin to help run quality assurance tests on web conten
 
 It is not intended for use in a production environment but rather on a test server or as a bookmarklet.
 
+<a href="http://madebymike.github.io/jQA/">View demo</a>
+
 Usage
 -------------------
 
@@ -67,6 +69,7 @@ jQA.addQA({
   }
 });
 ```
+
 Options
 -------
 
