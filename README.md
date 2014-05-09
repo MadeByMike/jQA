@@ -65,7 +65,7 @@ jQA.addQA({
       $(obj).css("border-bottom","dashed 1px red");
     },
     "message": "incorrect email format",
-    "severity": 5 //Any number you like will be added to the class on the 
+    "severity": 5 // Any number you like, 1 = worst 
   }
 });
 ```
@@ -85,7 +85,7 @@ jQA.settings({
 Initiating QA
 -------------
 
-Rules can be added before the DOM has loaded. Once the page is ready, and you have added rules run `jQA.doQA()`. You can pass 2 options when running `doQA`, the silent flag will tell jQA to log the errors to the console rather than displaying them and passing a severity will tell jQA to ignore rules with a severity score above this number .
+Rules can be added before the DOM has loaded. Once the page is ready, and you have added rules run `jQA.doQA()`. You can pass 2 options when running `doQA`, the silent flag will tell jQA to log the errors to the console rather than displaying them. Passing a severity will tell jQA to ignore rules with a severity score above this number. The severity scale is reversed.
 
 ```javascript
 $(document).ready(function(){
