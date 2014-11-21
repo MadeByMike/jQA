@@ -46,8 +46,8 @@
 	// Generate the HTML and add it to the document
 	$overlay = $('<div id="overlay"></div>');
 	$modal = $('<div id="modal"></div>');
-	$content = $('<div id="content"></div>');
-	$close = $('<a id="close" href="#">close</a>');
+	$content = $('<div></div>');
+	$close = $('<a class="modal-close" href="#">close</a>');
 	
 	$modal.hide();
 	$overlay.hide();
