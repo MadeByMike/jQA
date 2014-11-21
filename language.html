@@ -67,7 +67,7 @@
 					$.each(messages, function(index, message){
 						messageHTML+= '<li>'+message.message+'</li>';
 					});
-					messageHTML ="</ul>";
+					messageHTML += "</ul>";
 					modal.open({ content: messageHTML });
 				} else {
 					alert('No issues detected!')
