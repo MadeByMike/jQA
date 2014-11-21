@@ -2,7 +2,8 @@
 (function ( $, window, undefined) {
 	var jQA = function(){
 		var defaults = {
-			"severity":5
+			"severity":5,
+			"ignore":"no-qa"
 		}
 		var rules = {};
 		this.messages = [];
@@ -22,9 +23,9 @@
 				if (obj.severity === undefined) {
 					obj.severity = defaults.severity;
 				}
-				if (rule.severity <= severity) {
+				if (obj.severity <= severity) {
 					var objects = $(obj.selector).filter(function(i,obj){
-						return ($(obj).closest('.no-qa').length === 0);
+						return ($(obj).closest(defaults.ignore).length === 0);
 					});
 					if (typeof obj.filter === 'function') {
 						objects = $(objects).filter(obj.filter);
