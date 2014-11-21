@@ -6,45 +6,47 @@
         <title>jQA tests</title>
     <style>
 	body{
-	margin: 0 2em;
+		margin: 0 2em;
 	}
 	pre{
-		  border: solid 1px #CCC;
-		  padding: .2em 1em;
-		  width: 100%;
-		  box-sizing: border-box;
-		  overflow: auto;
+		border: solid 1px #CCC;
+		padding: .2em 1em;
+		width: 100%;
+		box-sizing: border-box;
+		overflow: auto;
 	}
 	section{
-		  border-bottom: solid 1px #CCC;
-		  padding-bottom: 2em;
-		  margin-bottom: 2em;
+		border-bottom: solid 1px #CCC;
+		padding-bottom: 2em;
+		margin-bottom: 2em;
 	}
 	/* Modal */
 	#overlay {
-	    position: fixed; 
-	    top: 0;
-	    left: 0;
-	    width: 100%;
-	    height: 100%;
-	    background: rgba(0,0,0,0.5);
+		position: fixed; 
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0,0,0,0.5);
 	}
 	#modal {
-	    position:absolute;
-	    background:rgba(255,255,255.2);
-	    border-radius:14px;
-	    padding:8px;
+		position:absolute;
+		background:rgba(255,255,255.2);
+		border-radius:14px;
+		padding:8px;
 	}
 	#modal div {
-	    border-radius:8px;
-	    background:#fff;
-	    padding:20px;
+		border-radius:8px;
+		background:#fff;
+		padding:20px;
 	}
 	#modal .modal-close {
-	    position:absolute;
-	    width:24px;
-	    height:27px;
-	    display:block;
+		position:absolute;
+		width:24px;
+		height:27px;
+		top: 10px;
+		right: 25px;
+		display:block;
 	}
     </style>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -62,7 +64,7 @@
 	if(messages.length){
 		var messageHTML ="";
 		$.each(messages, function(index, message){
-			messageHTML+= '<li class="severity-'+message.severity+'">'+message.message+'</li>';
+			messageHTML+= '<li>'+message.message+'</li>';
 		});
 		modal.open({ content: messageHTML });
 	} else {
