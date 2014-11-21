@@ -44,8 +44,8 @@
 	};
 	
 	// Generate the HTML and add it to the document
-	$overlay = $('<div id="overlay"></div>');
-	$modal = $('<div id="modal"></div>');
+	$overlay = $('<div id="overlay" class="no-qa"></div>');
+	$modal = $('<div id="modal"  class="no-qa"></div>');
 	$content = $('<div></div>');
 	$close = $('<a class="modal-close" href="#">close</a>');
 	
@@ -58,6 +58,10 @@
 	});
 	
 	$close.click(function(e){
+		e.preventDefault();
+		method.close();
+	});
+	$overlay.click(function(e){
 		e.preventDefault();
 		method.close();
 	});
