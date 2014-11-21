@@ -77,20 +77,22 @@ Not many settings at the moment. Set a message for the jQA modal header and the 
 
 ```javascript
 jQA.settings({
-			"headerMessage":"jQA has detected the following",
-			"defaultSeverity":5
+		"headerMessage":"jQA has detected the following",
+		"defaultSeverity":5
 	});
 ```
 
 Initiating QA
 -------------
 
-Rules can be added before the DOM has loaded. Once the page is ready, and you have added rules run `jQA.doQA()`. You can pass 2 options when running `doQA`, the silent flag will tell jQA to log the errors to the console rather than displaying them. Passing a severity will tell jQA to ignore rules with a severity score above this number. The severity scale is reversed.
+Rules can be added before the DOM has loaded. Once the page is ready and you have added rules, run `jQA.doQA()`. You can optionally pass a callback to be executed after QA has finished. You can also run doQA on page load and access the messages anytime without running QA again. 
 
 ```javascript
 $(document).ready(function(){
-	var silent = true; // log errors to console
-	var severity = 2; // ignore rules with severity greater than 2
-	jQA.doQA(silent,severity);
+	jQA.doQA(function(messages){
+	  console.log(messages);
+	});
+	//You can also access messages like this:
+	console.log(jQA.messages);
 });
 ```
