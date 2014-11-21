@@ -22,7 +22,7 @@
 				if (obj.severity === undefined) {
 					obj.severity = defaults.severity;
 				}
-				if (rule.severity <= severity) {
+				if (obj.severity <= severity) {
 					var objects = $(obj.selector).filter(function(i,obj){
 						return ($(obj).closest('.no-qa').length === 0);
 					});
