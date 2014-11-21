@@ -5,21 +5,47 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <title>jQA tests</title>
     <style>
-      body{
-      margin: 0 2em;
-      }
-      pre{
+	body{
+	margin: 0 2em;
+	}
+	pre{
 		  border: solid 1px #CCC;
 		  padding: .2em 1em;
 		  width: 100%;
 		  box-sizing: border-box;
 		  overflow: auto;
-      }
-      section{
+	}
+	section{
 		  border-bottom: solid 1px #CCC;
 		  padding-bottom: 2em;
 		  margin-bottom: 2em;
-      }
+	}
+	/* Modal */
+	#overlay {
+	    position: fixed; 
+	    top: 0;
+	    left: 0;
+	    width: 100%;
+	    height: 100%;
+	    background: rgba(0,0,0,0.5);
+	}
+	#modal {
+	    position:absolute;
+	    background:rgba(255,255,255.2);
+	    border-radius:14px;
+	    padding:8px;
+	}
+	#modal div {
+	    border-radius:8px;
+	    background:#fff;
+	    padding:20px;
+	}
+	#modal .modal-close {
+	    position:absolute;
+	    width:24px;
+	    height:27px;
+	    display:block;
+	}
     </style>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="./js/jqa.js"></script>
@@ -31,7 +57,9 @@
       }
     }
     $(document).ready(function(){
-      jQA.doQA();
+      jQA.doQA(function(msg){
+      	console.log(msg);
+      });
     });
     </script>
     <script src="./js/accessibility-rules.js"></script>
@@ -219,6 +247,10 @@ jQA.addQA({
 		<p>Use css for consistent heading styles.</p>
     
     </section>
- 
+	<div id='overlay'></div>
+	<div id='modal'>
+	    <div></div>
+	    <a href='#' class='modal-close'>&times;</a>
+	</div>
     </body>
 </html>
