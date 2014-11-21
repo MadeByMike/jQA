@@ -62,10 +62,11 @@
     $(document).ready(function(){
       jQA.doQA(function(messages){
 	if(messages.length){
-		var messageHTML ="";
+		var messageHTML ="<ul>";
 		$.each(messages, function(index, message){
 			messageHTML+= '<li>'+message.message+'</li>';
 		});
+		messageHTML ="</ul>";
 		modal.open({ content: messageHTML });
 	} else {
 		alert('No issues detected!')
