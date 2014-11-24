@@ -27,7 +27,7 @@ Writing tests cases
 You can add one or more rules at a time. Each rule must requires a unique name and a selector. This is all that is required although without a message this is fairly useless. 
 ```javascript
 {
-  "name or rule":{
+  "name of rule":{
 		"selector":"body img", // string: jQuery selector
 		"filter": function(object){  }, // function: Filter items matched items by returning true
 		"each": function(object){  }, // function: Called for item after filtering. Useful for highlighting on the page.
